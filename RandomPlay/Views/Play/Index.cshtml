@@ -1,0 +1,46 @@
+﻿@model RandomPlay.ViewModels.MatchVM
+
+@{
+    ViewBag.Title = "Start playing";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@if (Model.Id == null)
+{
+    <h2> No current matches available.</h2>
+}
+else if (!string.IsNullOrEmpty(Model.Message))
+{
+    <h2> @Model.Message </h2> <span> @Model.Name</span>>
+}
+else
+{
+    <input type="text" hidden value="@Model.Id" id="modelId">
+
+    <span>@Model.Name</span>
+    <input type="submit" id="playGame" value="Play game" onclick="generateNumber()" />
+}
+<script>
+    function generateNumber() {
+        var id = $("#modelId").val();
+        $.ajax({
+            type: "POST",
+            url: "PlayMatch",
+            data: { matchId: id },
+            success: function (response) {
+                if (response.ErrorMessage) {
+
+                }
+                else {
+
+                }
+                console.log(response)
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    };
+</script>
